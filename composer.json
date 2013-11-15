@@ -1,0 +1,21 @@
+{
+    "name": "invit/data-analysis-bundle",
+    "description": "A bundle to generate a simple query-storage-execution sonata admin",
+    "authors": [
+        {
+            "name": "Toni Rudolf",
+            "email": "toni.rudolf@weekend4two.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">= 5.3",
+        "symfony/symfony": ">= 2.1.0",
+        "pingencom/pingen": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Invit\\DataAnalysisBundle\\": "src/"
+        }
+    }
+}
