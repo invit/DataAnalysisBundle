@@ -26,6 +26,11 @@ class DataAnalysisQueryAdmin extends Admin
         $menu->addChild('Optionen', array('attributes' => array('class' => 'nav-header')));
         $menu->addChild('edit', array('uri' => $admin->generateUrl('edit', array('id' => $id)), 'label' => 'Bearbeiten'));
         $menu->addChild('executeQuery', array('uri' => $admin->generateUrl('executeQuery', array('id' => $id)), 'label' => 'Query ausführen'));
+
+        $menu->addChild('andere Auswertungen', array('attributes' => array('class' => 'nav-header')));
+        foreach($this->getModelManager()->findBy($this->getClass()) as $key => $object){
+            $menu->addChild('executeQuery'.$key, array('uri' => $admin->generateUrl('executeQuery', array('id' => $object->getId())), 'label' => $object->getTitle()));
+        }
     }
 
     /**
