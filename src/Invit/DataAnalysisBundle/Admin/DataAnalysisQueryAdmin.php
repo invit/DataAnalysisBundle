@@ -71,7 +71,15 @@ class DataAnalysisQueryAdmin extends Admin
             ->add('category', 'sonata_type_model', array('label' => 'Kategorie'))
             ->add('title', null, array('label' => 'Titel'))
             ->add('description', null, array('label' => 'Beschreibung'))
+            ->add('parameters', 'sonata_type_collection', array(
+                'label' => 'Parameter',
+                'by_reference' => false
+            ), array(
+                'edit' => 'inline',
+                'inline' => 'table'
+            ))
             ->add('query', null, array('label' => 'Query'))
+
         ;
     }
 
@@ -92,6 +100,7 @@ class DataAnalysisQueryAdmin extends Admin
     protected function configureRoutes(RouteCollection $collection) {
         $collection->add('executeQuery', $this->getRouterIdParameter().'/query/execute');
         $collection->add('exportQuery', $this->getRouterIdParameter().'/query/export/{format}');
+        $collection->add('setQueryParameter', $this->getRouterIdParameter().'/query/set-parameter');
 
         $collection->remove('batch');
     }

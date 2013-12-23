@@ -2,6 +2,7 @@
 
 namespace Invit\DataAnalysisBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,26 @@ class DataAnalysisQuery
     private $description;
 
     /**
+     * @var DataAnalysisCategory
+     *
+     * @ORM\ManyToOne(targetEntity="DataAnalysisCategory")
+     * @ORM\JoinColumn(name="dataAnalysisCategory_id", referencedColumnName="id")
+     */
+    private $category;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="DataAnalysisQueryParameter", mappedBy="query", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $parameters;
+
+    public function __construct()
+    {
+        $this->parameters = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -50,14 +71,6 @@ class DataAnalysisQuery
     {
         return $this->id;
     }
-
-    /**
-     * @var DataAnalysisCategory
-     *
-     * @ORM\ManyToOne(targetEntity="DataAnalysisCategory")
-     * @ORM\JoinColumn(name="dataAnalysisCategory_id", referencedColumnName="id")
-     */
-    private $category;
 
     /**
      * Set query
@@ -135,5 +148,38 @@ class DataAnalysisQuery
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @param mixed $parameters
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * @param DataAnalysisQueryParameter $parameter
+     */
+    public function addParameter(DataAnalysisQueryParameter $parameter)
+    {
+        $parameter->setQuery($this);
+        $this->parameters->add($parameter);
+    }
+
+    /**
+     * @param DataAnalysisQueryParameter $parameter
+     */
+    public function removeParameter(DataAnalysisQueryParameter $parameter)
+    {
+        $this->parameters->removeElement($parameter);
     }
 }

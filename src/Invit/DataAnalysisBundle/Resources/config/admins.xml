@@ -11,6 +11,12 @@
             <argument>Invit\DataAnalysisBundle\Entity\DataAnalysisCategory</argument>
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
+        <service id="invit.admin.dataAnalysisQueryParameter" class="Invit\DataAnalysisBundle\Admin\DataAnalysisQueryParameterAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="weekend4two" label="Parameter"/>
+            <argument />
+            <argument>Invit\DataAnalysisBundle\Entity\DataAnalysisQueryParameter</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
         <service id="invit.admin.dataAnalysisQuery" class="Invit\DataAnalysisBundle\Admin\DataAnalysisQueryAdmin">
             <tag name="sonata.admin" manager_type="orm" group="weekend4two" label="Auswertungen"/>
             <argument />
