@@ -108,7 +108,16 @@ class DataAnalysisQueryAdminController extends CRUDController
             return new $this->createNotFoundException();
         }
 
-        $iterator = new DoctrineDBALConnectionSourceIterator($this->container->get('doctrine.dbal.select_only_connection'), $dataAnalysisQuery->getQuery());
+        $query = $dataAnalysisQuery->getQuery();
+        foreach($dataAnalysisQuery->getParameters() AS $queryParameter){
+            if(null !== $this->getRequest()->get($queryParameter->getName())){
+                $query = str_replace('$$$'.$queryParameter->getName().'$$$', $this->getRequest()->get($queryParameter->getName()), $query);
+            }else{
+                return $this->redirect($this->admin->generateObjectUrl('setQueryParameter', $dataAnalysisQuery));
+            }
+        }
+
+        $iterator = new DoctrineDBALConnectionSourceIterator($this->container->get('doctrine.dbal.select_only_connection'), $query);
 
         $exporter = new Exporter();
         return $response = $exporter->getResponse($format, date('Y-m-d').'_'.$dataAnalysisQuery->getId().'.'.$format, $iterator);

@@ -8,7 +8,7 @@
 {% block side_menu %}{{ knp_menu_render(admin.sidemenu(action), {}, 'list') }}{% endblock %}
 
 {% block content %}
-    <table class="table table-bordered table-striped default footable-loaded">
+    <table id="analysis-result-table" class="table table-bordered table-striped default footable-loaded">
         <thead>
             <tr>
                 {% for field, value in result.0 %}
@@ -20,7 +20,7 @@
             {% for row in result %}
                 <tr>
                     {% for value in row %}
-                        <td>{{ value }}</td>
+                        <td data-sort="{{ value|replace({"'": '', ',': ''}) }}">{{ value }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
@@ -31,10 +31,10 @@
                     <div class="form-inline">
                         <div class="pull-right">
                             Download:
-                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'json'}) }}">json</a>,
-                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'xml'}) }}">xml</a>,
-                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'csv'}) }}">csv</a>,
-                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'xls'}) }}">xls</a>
+                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'json'}|merge(app.request.query.all)) }}">json</a>,
+                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'xml'}|merge(app.request.query.all)) }}">xml</a>,
+                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'csv'}|merge(app.request.query.all)) }}">csv</a>,
+                            <a href="{{ admin.generateUrl('exportQuery', {'id': admin.id(object), 'format': 'xls'}|merge(app.request.query.all)) }}">xls</a>
                             &nbsp;-&nbsp;
                             {{ result|length }} Ergebnisse
                         </div>
