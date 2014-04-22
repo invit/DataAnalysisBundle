@@ -1,8 +1,8 @@
 {% if admin.isGranted('EDIT', object) and admin.hasRoute('edit') %}
     <a href="{{ admin.generateObjectUrl('edit', object) }}" class="btn btn-info edit_link btn-small" title="{{ 'action_edit'|trans({}, 'SonataAdminBundle') }}">
-        <i class="icon-edit icon-white"></i>
+        <i class="fa fa-edit"></i>
     </a>
     <a href="{{ admin.generateObjectUrl('executeQuery', object) }}" class="btn btn-success btn-small" title="Ausführen">
-        <i class="icon-fire icon-white"></i>
+        <i class="fa fa-gear"></i>
     </a>
 {% endif %}

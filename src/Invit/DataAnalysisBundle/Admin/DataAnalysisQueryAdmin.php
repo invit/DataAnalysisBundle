@@ -23,15 +23,14 @@ class DataAnalysisQueryAdmin extends Admin
 
         $id = $admin->getRequest()->get('id');
 
-        $menu->addChild('Optionen', array('attributes' => array('class' => 'nav-header')));
         $menu->addChild('edit', array('uri' => $admin->generateUrl('edit', array('id' => $id)), 'label' => 'Bearbeiten'));
         $menu->addChild('executeQuery', array('uri' => $admin->generateUrl('executeQuery', array('id' => $id)), 'label' => 'Query ausführen'));
 
         foreach($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->findBy([], ['title' => 'ASC']) as $category){
-            $menu->addChild($category->getTitle(), ['attributes' => ['class' => 'nav-header exp', 'data-category' => $category->getId()]]);
+            $menu->addChild('category_'.$category->getId(), ['label' => $category->getTitle(), 'attributes' => ['dropdown' => 'true', 'class' => 'nav-header exp', 'data-category' => $category->getId()]]);
 
             foreach($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisQuery')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisQuery')->findBy(['category' => $category], ['title' => 'ASC']) as $query){
-                $menu->addChild('executeQuery'.$query->getId().$query->getId(), ['attributes' => ['class' => 'exp-hidden exp-menu cat-'.$category->getId()], 'uri' => $admin->generateUrl('executeQuery', ['id' => $query->getId()]), 'label' => $query->getTitle()]);
+                $menu['category_'.$category->getId()]->addChild('executeQuery'.$query->getId().$query->getId(), ['attributes' => ['class' => 'exp-hidden exp-menu cat-'.$category->getId()], 'uri' => $admin->generateUrl('executeQuery', ['id' => $query->getId()]), 'label' => $query->getTitle()]);
             }
         }
     }
