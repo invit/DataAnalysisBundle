@@ -1,13 +1,6 @@
-{% extends base_template %}
+{% extends '@Weekend4twoBackend/CRUD/subadmin_content.twig' %}
 
-
-{% block title %}
-    {% if title is defined %}{{ title }}{% endif %}
-{% endblock%}
-
-{% block side_menu %}{{ knp_menu_render(admin.sidemenu(action), {}, 'list') }}{% endblock %}
-
-{% block content %}
+{% block subadmin_content %}
     <table id="analysis-result-table" class="table table-bordered table-striped default footable-loaded">
         <thead>
             <tr>
