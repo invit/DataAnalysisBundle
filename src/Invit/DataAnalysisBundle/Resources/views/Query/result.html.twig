@@ -1,15 +1,16 @@
 {% extends '@Weekend4twoBackend/CRUD/subadmin_content.twig' %}
 
 {% block subadmin_content %}
-    <table id="analysis-result-table" class="table table-bordered table-striped default footable-loaded responsive">
-        <thead>
+    <div class="table-responsive">
+        <table id="analysis-result-table" class="table table-bordered table-striped default footable-loaded">
+            <thead>
             <tr>
                 {% for field, value in result.0 %}
                     <th>{{ field }}</th>
                 {% endfor %}
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for row in result %}
                 <tr>
                     {% for value in row %}
@@ -17,8 +18,8 @@
                     {% endfor %}
                 </tr>
             {% endfor %}
-        </tbody>
-        <tfoot>
+            </tbody>
+            <tfoot>
             <tr>
                 <th colspan="{{ result.0|length }}" class="footable-last-column footable-first-column">
                     <div class="form-inline">
@@ -34,6 +35,7 @@
                     </div>
                 </th>
             </tr>
-        </tfoot>
-    </table>
+            </tfoot>
+        </table>
+    </div>
 {% endblock %}
