@@ -39,7 +39,7 @@ class DataAnalysisQueryParameterType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(['queryObject' => null]);
+        $resolver->setDefaults(['queryObject' => null, 'csrf_protection' => false]);
     }
 
     /**

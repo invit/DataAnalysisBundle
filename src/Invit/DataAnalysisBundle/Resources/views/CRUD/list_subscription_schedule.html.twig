@@ -1,0 +1,24 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field -%}
+    {% if object.month is null %}
+        monatlich
+    {% else %}
+        Monat: {{ object.month }}
+    {% endif %} -
+    {% if object.day is null %}
+        täglich
+    {% else %}
+        Tag: {{ object.day }}
+    {% endif %} -
+    {% if object.hour is null %}
+        stündlich
+    {% else %}
+        Stunde: {{ object.hour }}
+    {% endif %} -
+    {% if object.minute is null %}
+        jede Minute
+    {% else %}
+        Minute: {{ object.minute }}
+    {% endif %}
+{%- endblock -%}

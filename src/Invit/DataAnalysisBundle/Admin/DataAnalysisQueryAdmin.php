@@ -26,6 +26,11 @@ class DataAnalysisQueryAdmin extends Admin
         $menu->addChild('edit', array('uri' => $admin->generateUrl('edit', array('id' => $id)), 'label' => 'Bearbeiten'));
         $menu->addChild('executeQuery', array('uri' => $admin->generateUrl('executeQuery', array('id' => $id)), 'label' => 'Query ausführen'));
 
+        $menu->addChild(
+            'subscriptions',
+            array('uri' => $admin->generateUrl('invit.admin.data_analysis_query_subscription.list', array('id' => $id)), 'label' => 'Abo')
+        );
+
         foreach($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->findBy([], ['title' => 'ASC']) as $category){
             $menu->addChild('category_'.$category->getId(), ['label' => $category->getTitle(), 'attributes' => ['dropdown' => 'true', 'class' => 'nav-header exp', 'data-category' => $category->getId()]]);
 
@@ -81,7 +86,6 @@ class DataAnalysisQueryAdmin extends Admin
                 'inline' => 'table'
             ))
             ->add('query', null, array('label' => 'Query'))
-
         ;
     }
 
@@ -113,5 +117,4 @@ class DataAnalysisQueryAdmin extends Admin
     public function getBatchActions(){
         return array();
     }
-
 }

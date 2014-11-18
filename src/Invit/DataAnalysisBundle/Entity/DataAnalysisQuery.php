@@ -28,6 +28,7 @@ class DataAnalysisQuery
      * @ORM\Column(name="query", type="text")
      */
     private $query;
+
     /**
      * @var string
      *
@@ -38,7 +39,7 @@ class DataAnalysisQuery
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -57,9 +58,21 @@ class DataAnalysisQuery
      */
     private $parameters;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="DataAnalysisQuerySubscription", mappedBy="query", cascade={"all"}, orphanRemoval=true)
+     */
+    private $subscriptions;
+
     public function __construct()
     {
         $this->parameters = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 
     /**
@@ -151,7 +164,7 @@ class DataAnalysisQuery
     }
 
     /**
-     * @param mixed $parameters
+     * @param ArrayCollection $parameters
      */
     public function setParameters($parameters)
     {
@@ -159,7 +172,7 @@ class DataAnalysisQuery
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getParameters()
     {
@@ -181,5 +194,38 @@ class DataAnalysisQuery
     public function removeParameter(DataAnalysisQueryParameter $parameter)
     {
         $this->parameters->removeElement($parameter);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSubscriptions()
+    {
+        return $this->subscriptions;
+    }
+
+    /**
+     * @param ArrayCollection $subscriptions
+     */
+    public function setSubscriptions($subscriptions)
+    {
+        $this->subscriptions = $subscriptions;
+    }
+
+    /**
+     * @param DataAnalysisQuerySubscription $subscription
+     */
+    public function addSubscription(DataAnalysisQuerySubscription $subscription)
+    {
+        $subscription->setQuery($this);
+        $this->subscriptions->add($subscription);
+    }
+
+    /**
+     * @param DataAnalysisQuerySubscription $subscription
+     */
+    public function removeSubscription(DataAnalysisQuerySubscription $subscription)
+    {
+        $this->subscriptions->removeElement($subscription);
     }
 }

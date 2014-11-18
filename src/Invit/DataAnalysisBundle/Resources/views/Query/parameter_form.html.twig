@@ -8,7 +8,14 @@
 {% block subadmin_buttons %}{% endblock %}
 
 {% block form_content %}
-    {{ form_rest(form) }}
+    {% for child in form %}
+        <div style="margin-bottom:15px;" class="clearfix">
+            {{ form_label(child, null, {'label_attr': {'class': 'col-sm-3'}}) }}
+            <div class="col-sm-9 col-md-9 sonata-ba-field sonata-ba-field-standard-natural  ">
+                {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    {% endfor %}
 {% endblock form_content %}
 
 {% block formactions %}

@@ -4,17 +4,21 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="invit_data_analysis.example.class">Invit\DataAnalysisBundle\Example</parameter>
+        <parameter key="invit_data_analysis.subscription.class">Invit\DataAnalysisBundle\Service\Subscription</parameter>
+        <parameter key="invit_data_analysis.query_executor.class">Invit\DataAnalysisBundle\Service\QueryExecutor</parameter>
     </parameters>
 
     <services>
-        <service id="invit_data_analysis.example" class="%invit_data_analysis.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="invit_data_analysis.subscription" class="%invit_data_analysis.subscription.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="dz.slack.messaging" />
+            <argument type="service" id="invit_data_analysis.query_executor" />
+            <argument type="service" id="router" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="invit_data_analysis.query_executor" class="%invit_data_analysis.query_executor.class%">
+            <argument type="service" id="doctrine.dbal.select_only_connection" />
         </service>
     </services>
-    -->
 </container>

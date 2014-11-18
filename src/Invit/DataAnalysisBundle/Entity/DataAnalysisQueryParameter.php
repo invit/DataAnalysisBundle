@@ -24,7 +24,7 @@ class DataAnalysisQueryParameter
     /**
      * @var DataAnalysisQuery
      *
-     * @ORM\ManyToOne(targetEntity="DataAnalysisQuery")
+     * @ORM\ManyToOne(targetEntity="DataAnalysisQuery", inversedBy="par")
      * @ORM\JoinColumn(name="dataAnalysisQuery_id", referencedColumnName="id")
      */
     private $query;

@@ -29,17 +29,12 @@ class DataAnalysisQueryAdminController extends CRUDController
             return new $this->createNotFoundException();
         }
 
-        $query = $dataAnalysisQuery->getQuery();
-        foreach($dataAnalysisQuery->getParameters() AS $queryParameter){
-            if(null !== $this->getRequest()->get($queryParameter->getName())){
-                $query = str_replace('$$$'.$queryParameter->getName().'$$$', $this->getRequest()->get($queryParameter->getName()), $query);
-            }else{
-                return $this->redirect($this->admin->generateObjectUrl('setQueryParameter', $dataAnalysisQuery));
-            }
+        try{
+            $executor = $this->get('invit_data_analysis.query_executor');
+            $result = $executor->execute($dataAnalysisQuery, $this->get('request')->query->all());
+        }catch(\Exception $e){
+            return $this->redirect($this->admin->generateObjectUrl('setQueryParameter', $dataAnalysisQuery));
         }
-
-        $conn = $this->container->get('doctrine.dbal.select_only_connection');
-        $result = $conn->query($query)->fetchAll(\PDO::FETCH_ASSOC);
 
         return $this->render("InvitDataAnalysisBundle:Query:result.html.twig", array(
             'action' => 'executeQuery',
