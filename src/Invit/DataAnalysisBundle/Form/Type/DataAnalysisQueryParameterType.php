@@ -22,7 +22,7 @@ class DataAnalysisQueryParameterType extends AbstractType
                 }elseif(preg_match('/^\{(.*)\}$/', $parameter->getSelection())){
                     $builder->add($parameter->getName(), 'choice', ['choices' => json_decode($parameter->getSelection(), true), 'label' => $parameter->getTitle()]);
                 }elseif(preg_match("/^[a-zA-Z0-9]+\\\.*\\\[a-zA-Z0-9]+$/", $parameter->getSelection())){
-                    $builder->add($parameter->getName(), 'entity', ['class' => $parameter->getSelection(), 'label' => $parameter->getTitle()]);
+                    $builder->add($parameter->getName(), 'transliterated_select2', ['class' => $parameter->getSelection(), 'label' => $parameter->getTitle()]);
                 }
             }
         }
