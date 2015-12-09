@@ -2,16 +2,10 @@
 
 namespace Invit\DataAnalysisBundle\Admin;
 
-use Invit\DataAnalysisBundle\Entity\DataAnalysisQuerySubscriptionParameterValue;
 use Invit\DataAnalysisBundle\Form\DataTransformer\ParameterValueTransformer;
-use Invit\DataAnalysisBundle\Form\Type\DataAnalysisQueryParameterType;
 use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 
 class DataAnalysisQuerySubscriptionAdmin extends Admin
 {
@@ -60,8 +54,8 @@ class DataAnalysisQuerySubscriptionAdmin extends Admin
                     6 => 'Samstag',
                     7 => 'Sonntag',
                 )))
-            ->add('hour', 'choice', array('label' => 'Stunde', 'required' => false, 'empty_value' => 'stündlich', 'choices' => array_combine(range(1,24), range(1,24))))
-            ->add('minute', 'choice', array('label' => 'Minute', 'required' => false, 'empty_value' => 'jede Minute', 'choices' => array_combine(range(1,59), range(1,59))))
+            ->add('hour', 'choice', array('label' => 'Stunde', 'required' => false, 'empty_value' => 'stündlich', 'choices' => array_combine(range(1, 24), range(1, 24))))
+            ->add('minute', 'choice', array('label' => 'Minute', 'required' => false, 'empty_value' => 'jede Minute', 'choices' => array_combine(range(1, 59), range(1, 59))))
             ->add('channel', null, array('label' => 'Slack-Channel'))
             ->add('parameterValues')
         ;

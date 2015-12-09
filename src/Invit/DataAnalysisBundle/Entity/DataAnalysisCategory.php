@@ -5,7 +5,7 @@ namespace Invit\DataAnalysisBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DataAnalysisCategory
+ * DataAnalysisCategory.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class DataAnalysisCategory
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -37,9 +37,9 @@ class DataAnalysisCategory
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -47,9 +47,10 @@ class DataAnalysisCategory
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return DataAnalysisCategory
      */
     public function setTitle($title)
@@ -60,9 +61,9 @@ class DataAnalysisCategory
     }
 
     /**
-     * Get title
+     * Get title.
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {

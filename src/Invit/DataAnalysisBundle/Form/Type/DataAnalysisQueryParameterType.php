@@ -8,20 +8,18 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DataAnalysisQueryParameterType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options){
-
-        if(null !== $options['queryObject']){
-            foreach($options['queryObject']->getParameters() as $parameter){
-
-                if(null === $parameter->getSelection()){
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        if (null !== $options['queryObject']) {
+            foreach ($options['queryObject']->getParameters() as $parameter) {
+                if (null === $parameter->getSelection()) {
                     $builder->add($parameter->getName(), null, ['label' => $parameter->getTitle()]);
-                }elseif(preg_match('/^\{(.*)\}$/', $parameter->getSelection())){
+                } elseif (preg_match('/^\{(.*)\}$/', $parameter->getSelection())) {
                     $builder->add($parameter->getName(), 'choice', ['choices' => json_decode($parameter->getSelection(), true), 'label' => $parameter->getTitle()]);
-                }elseif(preg_match("/^[a-zA-Z0-9]+\\\.*\\\[a-zA-Z0-9]+$/", $parameter->getSelection())){
+                } elseif (preg_match("/^[a-zA-Z0-9]+\\\.*\\\[a-zA-Z0-9]+$/", $parameter->getSelection())) {
                     $builder->add($parameter->getName(), 'transliterated_select2', ['class' => $parameter->getSelection(), 'label' => $parameter->getTitle()]);
                 }
             }
@@ -35,7 +33,6 @@ class DataAnalysisQueryParameterType extends AbstractType
     {
         return 'form';
     }
-
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {

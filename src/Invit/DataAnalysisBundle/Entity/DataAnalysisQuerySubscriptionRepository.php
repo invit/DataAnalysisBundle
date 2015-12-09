@@ -4,9 +4,10 @@ namespace Invit\DataAnalysisBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
-class DataAnalysisQuerySubscriptionRepository extends EntityRepository {
-
-    public function getScheduledSubscriptions(){
+class DataAnalysisQuerySubscriptionRepository extends EntityRepository
+{
+    public function getScheduledSubscriptions()
+    {
         $qb = $this->_em->getRepository($this->_entityName)
             ->createQueryBuilder('s')
         ;

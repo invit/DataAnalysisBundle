@@ -6,15 +6,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DataAnalysisQuery
+ * DataAnalysisQuery.
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Invit\DataAnalysisBundle\Entity\DataAnalysisQuerySubscriptionRepository")
  */
-class DataAnalysisQuerySubscription {
-
+class DataAnalysisQuerySubscription
+{
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -86,7 +86,7 @@ class DataAnalysisQuerySubscription {
 
     public function __toString()
     {
-        return (string)$this->getId();
+        return (string) $this->getId();
     }
 
     /**
@@ -132,9 +132,10 @@ class DataAnalysisQuerySubscription {
     public function getParameterValuesArray()
     {
         $parameterValuesArray = [];
-        foreach($this->getParameterValues() as $parameterValue){
+        foreach ($this->getParameterValues() as $parameterValue) {
             $parameterValuesArray[$parameterValue->getParameter()->getName()] = $parameterValue->getValue();
         }
+
         return $parameterValuesArray;
     }
 

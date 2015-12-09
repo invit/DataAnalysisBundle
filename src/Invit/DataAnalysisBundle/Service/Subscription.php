@@ -1,9 +1,9 @@
 <?php
+
 namespace Invit\DataAnalysisBundle\Service;
 
 class Subscription
 {
-
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -30,15 +30,14 @@ class Subscription
             'InvitDataAnalysisBundle:DataAnalysisQuerySubscription'
         )->getScheduledSubscriptions();
 
-        foreach($subscriptions AS $subscription){
+        foreach ($subscriptions as $subscription) {
             $result = $this->queryExecutor->execute($subscription->getQuery(), $subscription->getParameterValuesArray());
 
             $resultHash = md5(serialize($result));
 
-            if($resultHash !== $subscription->getResultHash()){
-
+            if ($resultHash !== $subscription->getResultHash()) {
                 $url = $this->router->generate('admin_invit_dataanalysis_dataanalysisquery_executeQuery', array_merge(['id' => $subscription->getQuery()->getId()], $subscription->getParameterValuesArray()), true);
-                $response  = $this->slackMessenger->message(
+                $response = $this->slackMessenger->message(
                     $subscription->getChannel(),
                     sprintf('Änderung in "%s" - %s', $subscription->getQuery()->getTitle(), $url),
                     'Automator'
@@ -52,4 +51,4 @@ class Subscription
             }
         }
     }
-} 
+}

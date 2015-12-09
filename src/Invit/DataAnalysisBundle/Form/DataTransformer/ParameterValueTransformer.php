@@ -1,11 +1,10 @@
 <?php
-namespace Invit\DataAnalysisBundle\Form\DataTransformer;;
+
+namespace Invit\DataAnalysisBundle\Form\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
-
 use Invit\DataAnalysisBundle\Entity\DataAnalysisQuerySubscriptionParameterValue;
-
 
 class ParameterValueTransformer implements DataTransformerInterface
 {
@@ -17,35 +16,37 @@ class ParameterValueTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms an ArrayCollection of DataAnalysisQuerySubscriptionParameterValue into a key, value array
+     * Transforms an ArrayCollection of DataAnalysisQuerySubscriptionParameterValue into a key, value array.
      *
-     * @param  ArrayCollection|null $collection
+     * @param ArrayCollection|null $collection
+     *
      * @return array
      */
     public function transform($collection)
     {
         if (null === $collection) {
-            return null;
+            return;
         }
 
         $data = [];
-        foreach($collection as $parameterValue){
+        foreach ($collection as $parameterValue) {
             $data[$parameterValue->getParameter()->getName()] = $parameterValue->getValue();
         }
+
         return $data;
     }
 
     /**
-     * Transforms key, value array into an ArrayCollection of DataAnalysisQuerySubscriptionParameterValue
+     * Transforms key, value array into an ArrayCollection of DataAnalysisQuerySubscriptionParameterValue.
      *
-     * @param  array $data
+     * @param array $data
      *
      * @return ArrayCollection|null
      */
     public function reverseTransform($data)
     {
         $collection = new ArrayCollection();
-        foreach($this->queryObject->getParameters() as $parameter){
+        foreach ($this->queryObject->getParameters() as $parameter) {
             $parameterValue = new DataAnalysisQuerySubscriptionParameterValue();
             $parameterValue->setParameter($parameter);
             $parameterValue->setValue($data[$parameter->getName()]);

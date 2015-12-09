@@ -5,7 +5,7 @@ namespace Invit\DataAnalysisBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DataAnalysisQuery
+ * DataAnalysisQuery.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class DataAnalysisQueryParameter
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -51,9 +51,9 @@ class DataAnalysisQueryParameter
     private $selection;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DataAnalysisQuery
+ * DataAnalysisQuery.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class DataAnalysisQuery
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -52,14 +52,12 @@ class DataAnalysisQuery
     private $category;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="DataAnalysisQueryParameter", mappedBy="query", cascade={"all"}, orphanRemoval=true)
      * @ORM\OrderBy({"name" = "ASC"})
      */
     private $parameters;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="DataAnalysisQuerySubscription", mappedBy="query", cascade={"all"}, orphanRemoval=true)
      */
     private $subscriptions;
@@ -76,9 +74,9 @@ class DataAnalysisQuery
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -86,9 +84,10 @@ class DataAnalysisQuery
     }
 
     /**
-     * Set query
+     * Set query.
      *
      * @param string $query
+     *
      * @return DataAnalysisQuery
      */
     public function setQuery($query)
@@ -99,9 +98,9 @@ class DataAnalysisQuery
     }
 
     /**
-     * Get query
+     * Get query.
      *
-     * @return string 
+     * @return string
      */
     public function getQuery()
     {
@@ -109,9 +108,10 @@ class DataAnalysisQuery
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return DataAnalysisCategory
      */
     public function setTitle($title)
@@ -122,7 +122,7 @@ class DataAnalysisQuery
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */

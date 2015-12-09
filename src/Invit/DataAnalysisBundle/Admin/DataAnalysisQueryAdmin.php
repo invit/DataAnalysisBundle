@@ -9,12 +9,12 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\AdminInterface;
-
 use Knp\Menu\ItemInterface as MenuItemInterface;
 
 class DataAnalysisQueryAdmin extends Admin
 {
-    protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null){
+    protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
+    {
         if (in_array($action, array('list', 'create'))) {
             return;
         }
@@ -31,10 +31,10 @@ class DataAnalysisQueryAdmin extends Admin
             array('uri' => $admin->generateUrl('invit.admin.data_analysis_query_subscription.list', array('id' => $id)), 'label' => 'Abo')
         );
 
-        foreach($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->findBy([], ['title' => 'ASC']) as $category){
+        foreach ($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->findBy([], ['title' => 'ASC']) as $category) {
             $menu->addChild('category_'.$category->getId(), ['label' => $category->getTitle(), 'attributes' => ['dropdown' => 'true', 'class' => 'nav-header exp', 'data-category' => $category->getId()]]);
 
-            foreach($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisQuery')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisQuery')->findBy(['category' => $category], ['title' => 'ASC']) as $query){
+            foreach ($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisQuery')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisQuery')->findBy(['category' => $category], ['title' => 'ASC']) as $query) {
                 $menu['category_'.$category->getId()]->addChild('executeQuery'.$query->getId().$query->getId(), ['attributes' => ['class' => 'exp-hidden exp-menu cat-'.$category->getId()], 'uri' => $admin->generateUrl('executeQuery', ['id' => $query->getId()]), 'label' => $query->getTitle()]);
             }
         }
@@ -63,8 +63,8 @@ class DataAnalysisQueryAdmin extends Admin
             ->add('description', null, array('label' => 'Beschreibung'))
             ->add('_action', 'actions', array(
                 'actions' => array(
-                    'actions' => array('template' => 'InvitDataAnalysisBundle:Admin:list__query_actions.html.twig')
-                )
+                    'actions' => array('template' => 'InvitDataAnalysisBundle:Admin:list__query_actions.html.twig'),
+                ),
             ))
         ;
     }
@@ -80,10 +80,10 @@ class DataAnalysisQueryAdmin extends Admin
             ->add('description', null, array('label' => 'Beschreibung'))
             ->add('parameters', 'sonata_type_collection', array(
                 'label' => 'Parameter',
-                'by_reference' => false
+                'by_reference' => false,
             ), array(
                 'edit' => 'inline',
-                'inline' => 'table'
+                'inline' => 'table',
             ))
             ->add('query', null, array('label' => 'Query'))
         ;
@@ -103,7 +103,8 @@ class DataAnalysisQueryAdmin extends Admin
     /**
      * @param RouteCollection $collection
      */
-    protected function configureRoutes(RouteCollection $collection) {
+    protected function configureRoutes(RouteCollection $collection)
+    {
         $collection->add('executeQuery', $this->getRouterIdParameter().'/query/execute');
         $collection->add('exportQuery', $this->getRouterIdParameter().'/query/export/{format}');
         $collection->add('setQueryParameter', $this->getRouterIdParameter().'/query/set-parameter');
@@ -114,7 +115,8 @@ class DataAnalysisQueryAdmin extends Admin
     /**
      * @return array
      */
-    public function getBatchActions(){
+    public function getBatchActions()
+    {
         return array();
     }
 }
