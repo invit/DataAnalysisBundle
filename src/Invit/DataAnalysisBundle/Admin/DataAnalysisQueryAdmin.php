@@ -75,7 +75,7 @@ class DataAnalysisQueryAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('category', 'sonata_type_model', array('label' => 'Kategorie'))
+            ->add('category', null, array('label' => 'Kategorie'))
             ->add('title', null, array('label' => 'Titel'))
             ->add('description', null, array('label' => 'Beschreibung'))
             ->add('parameters', 'sonata_type_collection', array(

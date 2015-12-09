@@ -5,6 +5,7 @@ namespace Invit\DataAnalysisBundle\Controller;
 use Exporter\Source\DoctrineDBALConnectionSourceIterator;
 use Invit\DataAnalysisBundle\Form\Type\DataAnalysisQueryParameterType;
 use Sonata\AdminBundle\Controller\CRUDController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Sonata\AdminBundle\Export\Exporter;
@@ -33,7 +34,9 @@ class DataAnalysisQueryAdminController extends CRUDController
             $executor = $this->get('invit_data_analysis.query_executor');
             $result = $executor->execute($dataAnalysisQuery, $this->get('request')->query->all());
         }catch(\Exception $e){
-            return $this->redirect($this->admin->generateObjectUrl('setQueryParameter', $dataAnalysisQuery));
+            $this->get('logger')->addCritical('data-analysis: '.$e->getMessage(), (array) $e->getTrace());
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirect($this->admin->generateObjectUrl('setQueryParameter', $dataAnalysisQuery, ['error' => true]));
         }
 
         return $this->render("InvitDataAnalysisBundle:Query:result.html.twig", array(
@@ -48,7 +51,7 @@ class DataAnalysisQueryAdminController extends CRUDController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function setQueryParameterAction($id)
+    public function setQueryParameterAction(Request $request, $id)
     {
         $id = $this->get('request')->get($this->admin->getIdParameter());
         $dataAnalysisQuery = $this->admin->getObject($id);
@@ -60,10 +63,15 @@ class DataAnalysisQueryAdminController extends CRUDController
             return new $this->createNotFoundException();
         }
         if($dataAnalysisQuery->getParameters()->count() < 1){
+            if ($request->get('error')) {
+                return $this->redirect($this->admin->generateObjectUrl('edit', $dataAnalysisQuery));
+            }
             return $this->redirect($this->admin->generateObjectUrl('executeQuery', $dataAnalysisQuery));
         }
 
         $form = $this->createForm(new DataAnalysisQueryParameterType(), [], ['queryObject' => $dataAnalysisQuery]);
+
+
         $form->handleRequest($this->getRequest());
 
         if($form->isSubmitted() && $form->isValid()){
@@ -78,6 +86,7 @@ class DataAnalysisQueryAdminController extends CRUDController
 
             return $this->redirect($this->admin->generateObjectUrl('executeQuery', $dataAnalysisQuery, $parameters));
         }
+
 
         return $this->render("InvitDataAnalysisBundle:Query:parameter_form.html.twig", array(
             'form' => $form->createView(),
