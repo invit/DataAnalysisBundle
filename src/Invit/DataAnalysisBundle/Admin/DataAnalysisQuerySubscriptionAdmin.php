@@ -3,6 +3,7 @@
 namespace Invit\DataAnalysisBundle\Admin;
 
 use Invit\DataAnalysisBundle\Form\DataTransformer\ParameterValueTransformer;
+use Invit\DataAnalysisBundle\Form\Type\DataAnalysisQueryParameterType;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -64,7 +65,7 @@ class DataAnalysisQuerySubscriptionAdmin extends Admin
 
         $builder->add(
             $builder
-                ->create('parameterValues', 'data_analysis_query_parameter_type', ['label' => 'Parameter', 'queryObject' => $this->getParent()->getSubject()])
+                ->create('parameterValues', DataAnalysisQueryParameterType::class, ['label' => 'Parameter', 'queryObject' => $this->getParent()->getSubject()])
                 ->addModelTransformer(new ParameterValueTransformer(
                         $this->getParent()->getSubject()
                         ))

@@ -4,8 +4,9 @@ namespace Invit\DataAnalysisBundle\Form\Type;
 
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DataAnalysisQueryParameterType extends AbstractType
 {
@@ -34,10 +35,13 @@ class DataAnalysisQueryParameterType extends AbstractType
      */
     public function getParent()
     {
-        return 'form';
+        return FormType::class;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['queryObject' => null, 'csrf_protection' => false]);
     }
@@ -45,7 +49,7 @@ class DataAnalysisQueryParameterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'data_analysis_query_parameter_type';
     }
