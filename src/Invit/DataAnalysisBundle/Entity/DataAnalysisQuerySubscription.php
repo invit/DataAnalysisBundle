@@ -26,7 +26,7 @@ class DataAnalysisQuerySubscription
      * @var DataAnalysisQuery
      *
      * @ORM\ManyToOne(targetEntity="DataAnalysisQuery", inversedBy="subscriptions")
-     * @ORM\JoinColumn(name="query_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="query_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $query;
 

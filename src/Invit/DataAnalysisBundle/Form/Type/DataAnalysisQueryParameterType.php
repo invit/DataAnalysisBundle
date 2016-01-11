@@ -2,6 +2,7 @@
 
 namespace Invit\DataAnalysisBundle\Form\Type;
 
+use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -17,6 +18,8 @@ class DataAnalysisQueryParameterType extends AbstractType
             foreach ($options['queryObject']->getParameters() as $parameter) {
                 if (null === $parameter->getSelection()) {
                     $builder->add($parameter->getName(), null, ['label' => $parameter->getTitle()]);
+                } elseif (preg_match('/^date$/', $parameter->getSelection())) {
+                    $builder->add($parameter->getName(), DatePickerType::class, ['label' => $parameter->getTitle()]);
                 } elseif (preg_match('/^\{(.*)\}$/', $parameter->getSelection())) {
                     $builder->add($parameter->getName(), 'choice', ['choices' => json_decode($parameter->getSelection(), true), 'label' => $parameter->getTitle()]);
                 } elseif (preg_match("/^[a-zA-Z0-9]+\\\.*\\\[a-zA-Z0-9]+$/", $parameter->getSelection())) {

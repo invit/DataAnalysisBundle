@@ -33,7 +33,7 @@ class DataAnalysisQuerySubscriptionParameterValue
      * @var DataAnalysisQuerySubscription
      *
      * @ORM\ManyToOne(targetEntity="DataAnalysisQuerySubscription", inversedBy="parameterValues")
-     * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $subscription;
 

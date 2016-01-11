@@ -88,7 +88,8 @@ class DataAnalysisQueryAdmin extends Admin
             ))
             ->add('query', CodeType::class, array(
                 'label' => 'Query',
-                'code_mode' => 'sql'
+                'code_mode' => 'sql',
+                'required' => false,
             ))
         ;
     }

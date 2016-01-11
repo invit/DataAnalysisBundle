@@ -3,6 +3,7 @@
 namespace Invit\DataAnalysisBundle\Controller;
 
 use Exporter\Source\DoctrineDBALConnectionSourceIterator;
+use Invit\DataAnalysisBundle\Exception\MissingParameterException;
 use Invit\DataAnalysisBundle\Form\Type\DataAnalysisQueryParameterType;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,24 +19,26 @@ class DataAnalysisQueryAdminController extends CRUDController
      *
      * @throws AccessDeniedException
      */
-    public function executeQueryAction($id)
+    public function executeQueryAction(Request $request, $id)
     {
-        $id = $this->get('request')->get($this->admin->getIdParameter());
+        $id = $request->get($this->admin->getIdParameter());
         $dataAnalysisQuery = $this->admin->getObject($id);
 
         if (false === $this->admin->isGranted('EDIT')) {
             throw new AccessDeniedException();
         }
         if (!$dataAnalysisQuery) {
-            return new $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
 
         try {
             $executor = $this->get('invit_data_analysis.query_executor');
-            $result = $executor->execute($dataAnalysisQuery, $this->get('request')->query->all());
+            $result = $executor->execute($dataAnalysisQuery, $request->query->all());
         } catch (\Exception $e) {
-            $this->get('logger')->addCritical('data-analysis: '.$e->getMessage(), (array) $e->getTrace());
-            $this->addFlash('error', $e->getMessage());
+            if (!$e instanceof MissingParameterException) {
+                $this->get('logger')->addCritical('data-analysis: '.$e->getMessage(), (array) $e->getTrace());
+                $this->addFlash('error', $e->getMessage());
+            }
 
             return $this->redirect($this->admin->generateObjectUrl('setQueryParameter', $dataAnalysisQuery, ['error' => true]));
         }
@@ -56,14 +59,14 @@ class DataAnalysisQueryAdminController extends CRUDController
      */
     public function setQueryParameterAction(Request $request, $id)
     {
-        $id = $this->get('request')->get($this->admin->getIdParameter());
+        $id = $request->get($this->admin->getIdParameter());
         $dataAnalysisQuery = $this->admin->getObject($id);
 
         if (false === $this->admin->isGranted('EDIT')) {
             throw new AccessDeniedException();
         }
         if (!$dataAnalysisQuery) {
-            return new $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
         if ($dataAnalysisQuery->getParameters()->count() < 1) {
             if ($request->get('error')) {
@@ -80,7 +83,9 @@ class DataAnalysisQueryAdminController extends CRUDController
         if ($form->isSubmitted() && $form->isValid()) {
             $parameters = [];
             foreach ($form->getData() as $field => $value) {
-                if (is_object($value)) {
+                if ($value instanceof \DateTime) {
+                    $parameters[$field] = $value->format('Y-m-d');
+                } elseif (is_object($value)) {
                     $parameters[$field] = $value->getId();
                 } else {
                     $parameters[$field] = $value;
@@ -105,16 +110,16 @@ class DataAnalysisQueryAdminController extends CRUDController
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function exportQueryAction($id, $format)
+    public function exportQueryAction(Request $request, $id, $format)
     {
-        $id = $this->get('request')->get($this->admin->getIdParameter());
+        $id = $request->get($this->admin->getIdParameter());
         $dataAnalysisQuery = $this->admin->getObject($id);
 
         if (false === $this->admin->isGranted('EDIT')) {
             throw new AccessDeniedException();
         }
         if (!$dataAnalysisQuery) {
-            return new $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
 
         $query = $dataAnalysisQuery->getQuery();
