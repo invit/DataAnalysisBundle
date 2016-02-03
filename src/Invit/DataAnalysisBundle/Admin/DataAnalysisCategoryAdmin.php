@@ -13,7 +13,7 @@ class DataAnalysisCategoryAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('title', null, array('label' => 'Kategorie'))
+            ->add('title', null, ['label' => 'Kategorie'])
         ;
     }
 }

@@ -25,5 +25,8 @@ class InvitDataAnalysisExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('admins.xml');
         $loader->load('services.xml');
+
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('forms.yml');
     }
 }

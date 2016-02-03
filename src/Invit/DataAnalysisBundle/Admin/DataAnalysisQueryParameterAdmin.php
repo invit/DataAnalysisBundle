@@ -13,9 +13,9 @@ class DataAnalysisQueryParameterAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('title', null, array('label' => 'Titel'))
-            ->add('name', null, array('label' => 'Parameter'))
-            ->add('selection', null, array('label' => 'Auswahl', 'required' => false))
+            ->add('title', null, ['label' => 'Titel'])
+            ->add('name', null, ['label' => 'Parameter'])
+            ->add('selection', null, ['label' => 'Auswahl', 'required' => false])
         ;
     }
 
@@ -24,6 +24,6 @@ class DataAnalysisQueryParameterAdmin extends Admin
      */
     public function getBatchActions()
     {
-        return array();
+        return [];
     }
 }

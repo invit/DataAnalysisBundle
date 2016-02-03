@@ -1,15 +1,12 @@
-{% block data_analysis_query_parameter_type_widget %}
+{% block data_analysis_query_parameter_widget %}
     {% spaceless %}
         {% for child in form %}
-            <div style="margin-bottom:15px;" class="clearfix">
-                {{ form_label(child, null, {'label_attr': {'class': 'col-sm-3'}}) }}
+            <div class="form-group">
+                {{ form_label(child) }}
                 <div class="col-sm-9 col-md-9 sonata-ba-field sonata-ba-field-standard-natural  ">
                     {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
         {% endfor %}
     {% endspaceless %}
-{% endblock data_analysis_query_parameter_type_widget %}
-
-{% block data_analysis_query_parameter_type_label %}
-{% endblock data_analysis_query_parameter_type_label %}
+{% endblock data_analysis_query_parameter_widget %}

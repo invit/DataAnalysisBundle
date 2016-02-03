@@ -3,15 +3,19 @@
 namespace Invit\DataAnalysisBundle\Form\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
+use Invit\DataAnalysisBundle\Entity\DataAnalysisQueryParameter;
 use Symfony\Component\Form\DataTransformerInterface;
 use Invit\DataAnalysisBundle\Entity\DataAnalysisQuerySubscriptionParameterValue;
 
 class ParameterValueTransformer implements DataTransformerInterface
 {
     private $queryObject;
+    private $em;
 
-    public function __construct($queryObject)
+    public function __construct(EntityManagerInterface $em, $queryObject)
     {
+        $this->em = $em;
         $this->queryObject = $queryObject;
     }
 
@@ -30,7 +34,18 @@ class ParameterValueTransformer implements DataTransformerInterface
 
         $data = [];
         foreach ($collection as $parameterValue) {
-            $data[$parameterValue->getParameter()->getName()] = $parameterValue->getValue();
+            $value = $parameterValue->getValue();
+
+            switch($parameterValue->getParameter()->getType()) {
+                case DataAnalysisQueryParameter::ENTITY_TYPE:
+                    $value = $this->em->getReference($parameterValue->getParameter()->getSelection(), $value);
+                    break;
+                case DataAnalysisQueryParameter::DATE_TYPE:
+                    $value = new \DateTime($value);
+                    break;
+            }
+
+            $data[$parameterValue->getParameter()->getName()] = $value;
         }
 
         return $data;
@@ -49,7 +64,19 @@ class ParameterValueTransformer implements DataTransformerInterface
         foreach ($this->queryObject->getParameters() as $parameter) {
             $parameterValue = new DataAnalysisQuerySubscriptionParameterValue();
             $parameterValue->setParameter($parameter);
-            $parameterValue->setValue($data[$parameter->getName()]);
+
+            $value = $data[$parameter->getName()];
+
+            switch($parameter->getType()) {
+                case DataAnalysisQueryParameter::ENTITY_TYPE:
+                    $value = $value->getId();
+                    break;
+                case DataAnalysisQueryParameter::DATE_TYPE:
+                    $value = $value->format('Y-m-d');
+                    break;
+            }
+
+            $parameterValue->setValue($value);
             $collection->add($parameterValue);
         }
 

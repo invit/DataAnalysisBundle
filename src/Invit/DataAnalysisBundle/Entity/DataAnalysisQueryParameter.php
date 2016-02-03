@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DataAnalysisQueryParameter
 {
+    const TEXT_TYPE = 'text';
+    const DATE_TYPE = 'date';
+    const ENTITY_TYPE = 'entity';
+    const CHOICE_TYPE = 'choice';
+
     /**
      * @var int
      *
@@ -122,5 +127,21 @@ class DataAnalysisQueryParameter
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        if (null === $this->getSelection()) {
+            return self::TEXT_TYPE;
+        } elseif (preg_match('/^date$/', $this->getSelection())) {
+            return self::DATE_TYPE;
+        } elseif (preg_match('/^\{(.*)\}$/', $this->getSelection())) {
+            return self::CHOICE_TYPE;
+        } elseif (preg_match("/^[a-zA-Z0-9]+\\\.*\\\[a-zA-Z0-9]+$/", $this->getSelection())) {
+            return self::ENTITY_TYPE;
+        }
     }
 }

@@ -76,7 +76,7 @@ class DataAnalysisQueryAdminController extends CRUDController
             return $this->redirect($this->admin->generateObjectUrl('executeQuery', $dataAnalysisQuery));
         }
 
-        $form = $this->createForm(new DataAnalysisQueryParameterType(), [], ['queryObject' => $dataAnalysisQuery]);
+        $form = $this->createForm(DataAnalysisQueryParameterType::class, [], ['query_object' => $dataAnalysisQuery]);
 
         $form->handleRequest($this->getRequest());
 

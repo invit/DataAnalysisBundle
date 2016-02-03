@@ -16,7 +16,7 @@ class DataAnalysisQueryAdmin extends Admin
 {
     protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
     {
-        if (in_array($action, array('list', 'create'))) {
+        if (in_array($action, ['list', 'create'])) {
             return;
         }
 
@@ -24,12 +24,13 @@ class DataAnalysisQueryAdmin extends Admin
 
         $id = $admin->getRequest()->get('id');
 
-        $menu->addChild('edit', array('uri' => $admin->generateUrl('edit', array('id' => $id)), 'label' => 'Bearbeiten'));
-        $menu->addChild('executeQuery', array('uri' => $admin->generateUrl('executeQuery', array('id' => $id)), 'label' => 'Query ausführen'));
+        $menu->addChild('edit', ['uri' => $admin->generateUrl('edit', ['id' => $id]), 'label' => 'Bearbeiten']);
+        $menu->addChild('executeQuery', ['uri' => $admin->generateUrl('executeQuery', ['id' => $id]), 'label' => 'Query ausführen']
+        );
 
         $menu->addChild(
             'subscriptions',
-            array('uri' => $admin->generateUrl('invit.admin.data_analysis_query_subscription.list', array('id' => $id)), 'label' => 'Abo')
+            ['uri' => $admin->generateUrl('invit.admin.data_analysis_query_subscription.list', ['id' => $id]), 'label' => 'Abo']
         );
 
         foreach ($this->getModelManager()->getEntityManager('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->getRepository('Invit\DataAnalysisBundle\Entity\DataAnalysisCategory')->findBy([], ['title' => 'ASC']) as $category) {
@@ -47,9 +48,9 @@ class DataAnalysisQueryAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('category', null, array('label' => 'Kategorie'))
-            ->add('title', null, array('label' => 'Titel'))
-            ->add('description', null, array('label' => 'Beschreibung'))
+            ->add('category', null, ['label' => 'Kategorie'])
+            ->add('title', null, ['label' => 'Titel'])
+            ->add('description', null, ['label' => 'Beschreibung'])
         ;
     }
 
@@ -59,14 +60,14 @@ class DataAnalysisQueryAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('category', null, array('label' => 'Kategorie'))
-            ->add('title', null, array('label' => 'Titel'))
-            ->add('description', null, array('label' => 'Beschreibung'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'actions' => array('template' => 'InvitDataAnalysisBundle:Admin:list__query_actions.html.twig'),
-                ),
-            ))
+            ->add('category', null, ['label' => 'Kategorie'])
+            ->add('title', null, ['label' => 'Titel'])
+            ->add('description', null, ['label' => 'Beschreibung'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'actions' => ['template' => 'InvitDataAnalysisBundle:Admin:list__query_actions.html.twig'],
+                ],
+            ])
         ;
     }
 
@@ -76,21 +77,21 @@ class DataAnalysisQueryAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('category', null, array('label' => 'Kategorie'))
-            ->add('title', null, array('label' => 'Titel'))
-            ->add('description', null, array('label' => 'Beschreibung'))
-            ->add('parameters', 'sonata_type_collection', array(
+            ->add('category', null, ['label' => 'Kategorie'])
+            ->add('title', null, ['label' => 'Titel'])
+            ->add('description', null, ['label' => 'Beschreibung'])
+            ->add('parameters', 'sonata_type_collection', [
                 'label' => 'Parameter',
                 'by_reference' => false,
-            ), array(
+            ], [
                 'edit' => 'inline',
                 'inline' => 'table',
-            ))
-            ->add('query', CodeType::class, array(
+            ])
+            ->add('query', CodeType::class, [
                 'label' => 'Query',
                 'code_mode' => 'sql',
                 'required' => false,
-            ))
+            ])
         ;
     }
 
@@ -122,6 +123,6 @@ class DataAnalysisQueryAdmin extends Admin
      */
     public function getBatchActions()
     {
-        return array();
+        return [];
     }
 }
