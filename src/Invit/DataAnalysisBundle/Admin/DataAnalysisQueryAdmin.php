@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Knp\Menu\ItemInterface as MenuItemInterface;
-use Weekend4two\Bundle\BackendBundle\Form\Extension\Type\CodeType;
+use Weekend4two\BackendBundle\Form\Extension\Type\CodeType;
 
 class DataAnalysisQueryAdmin extends Admin
 {

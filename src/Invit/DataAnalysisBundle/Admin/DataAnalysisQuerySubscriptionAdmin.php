@@ -36,7 +36,7 @@ class DataAnalysisQuerySubscriptionAdmin extends Admin
             ->add('month', ChoiceType::class, [
                 'label' => 'Monat',
                 'required' => false,
-                'empty_value' => 'monatlich',
+                'placeholder' => 'monatlich',
                 'choices' => [
                     1 => 'Januar',
                     2 => 'Februar',
@@ -55,7 +55,7 @@ class DataAnalysisQuerySubscriptionAdmin extends Admin
             ->add('day', ChoiceType::class, [
                 'label' => 'Tag',
                 'required' => false,
-                'empty_value' => 'täglich',
+                'placeholder' => 'täglich',
                 'choices' => [
                     1 => 'Montag',
                     2 => 'Dienstag',
@@ -69,13 +69,13 @@ class DataAnalysisQuerySubscriptionAdmin extends Admin
             ->add('hour', ChoiceType::class, [
                 'label' => 'Stunde',
                 'required' => false,
-                'empty_value' => 'stündlich',
+                'placeholder' => 'stündlich',
                 'choices' => array_combine(range(1, 24), range(1, 24))
             ])
             ->add('minute', ChoiceType::class, [
                 'label' => 'Minute',
                 'required' => false,
-                'empty_value' => 'jede Minute',
+                'placeholder' => 'jede Minute',
                 'choices' => array_combine(range(1, 59), range(1, 59))
             ])
             ->add('channel', null, ['label' => 'Slack-Channel'])
