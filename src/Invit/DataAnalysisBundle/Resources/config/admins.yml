@@ -1,0 +1,25 @@
+services:
+    invit.admin.data_analysis_category:
+        class: Invit\DataAnalysisBundle\Admin\DataAnalysisCategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: weekend4two, label: Kategorien }
+        arguments: ['', Invit\DataAnalysisBundle\Entity\DataAnalysisCategory, 'SonataAdminBundle:CRUD']
+    invit.admin.data_analysis_query_parameter:
+        class: Invit\DataAnalysisBundle\Admin\DataAnalysisQueryParameterAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: weekend4two, label: Parameter }
+        arguments: ['', Invit\DataAnalysisBundle\Entity\DataAnalysisQueryParameter, 'SonataAdminBundle:CRUD']
+    invit.admin.data_analysis_query:
+        class: Invit\DataAnalysisBundle\Admin\DataAnalysisQueryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: weekend4two, label: Auswertungen }
+        arguments: ['', Invit\DataAnalysisBundle\Entity\DataAnalysisQuery, 'InvitDataAnalysisBundle:DataAnalysisQueryAdmin']
+        calls:
+            - [ addChild, ['@invit.admin.data_analysis_query_subscription']]
+            - [ setTemplate, ['list', 'InvitDataAnalysisBundle:CRUD:query_list.html.twig']]
+
+    invit.admin.data_analysis_query_subscription:
+        class: Invit\DataAnalysisBundle\Admin\DataAnalysisQuerySubscriptionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: weekend4two, label: Auswertungen }
+        arguments: ['', Invit\DataAnalysisBundle\Entity\DataAnalysisQuerySubscription, 'SonataAdminBundle:CRUD']

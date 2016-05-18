@@ -12,6 +12,25 @@ use Sonata\AdminBundle\Export\Exporter;
 
 class DataAnalysisQueryAdminController extends CRUDController
 {
+    public function listAction()
+    {
+        $request = $this->getRequest();
+
+        $this->admin->checkAccess('list');
+
+        $datagrid = $this->admin->getDatagrid();
+
+        $results = [];
+        foreach ($datagrid->getResults() as $key => &$entry) {
+            $results[$entry->getCategory()->getId()][$key] = $entry;
+        }
+
+        return $this->render($this->admin->getTemplate('list'), array(
+            'action'     => 'list',
+            'results' => $results,
+        ), null, $request);
+    }
+
     /**
      * @param $id
      *
@@ -19,7 +38,7 @@ class DataAnalysisQueryAdminController extends CRUDController
      *
      * @throws AccessDeniedException
      */
-    public function executeQueryAction(Request $request, $id)
+    public function executeAction(Request $request, $id)
     {
         $id = $request->get($this->admin->getIdParameter());
         $dataAnalysisQuery = $this->admin->getObject($id);
@@ -44,7 +63,7 @@ class DataAnalysisQueryAdminController extends CRUDController
         }
 
         return $this->render('InvitDataAnalysisBundle:Query:result.html.twig', array(
-            'action' => 'executeQuery',
+            'action' => 'execute',
             'object' => $dataAnalysisQuery,
             'result' => $result,
         ));
@@ -73,7 +92,7 @@ class DataAnalysisQueryAdminController extends CRUDController
                 return $this->redirect($this->admin->generateObjectUrl('edit', $dataAnalysisQuery));
             }
 
-            return $this->redirect($this->admin->generateObjectUrl('executeQuery', $dataAnalysisQuery));
+            return $this->redirect($this->admin->generateObjectUrl('execute', $dataAnalysisQuery));
         }
 
         $form = $this->createForm(DataAnalysisQueryParameterType::class, [], ['query_object' => $dataAnalysisQuery]);
@@ -92,7 +111,7 @@ class DataAnalysisQueryAdminController extends CRUDController
                 }
             }
 
-            return $this->redirect($this->admin->generateObjectUrl('executeQuery', $dataAnalysisQuery, $parameters));
+            return $this->redirect($this->admin->generateObjectUrl('execute', $dataAnalysisQuery, $parameters));
         }
 
         return $this->render('InvitDataAnalysisBundle:Query:parameter_form.html.twig', array(

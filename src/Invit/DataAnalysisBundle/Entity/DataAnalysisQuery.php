@@ -4,6 +4,8 @@ namespace Invit\DataAnalysisBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
+use Invit\DataAnalysisBundle\DBAL\Types\QueryLanguageType;
 
 /**
  * DataAnalysisQuery.
@@ -23,6 +25,12 @@ class DataAnalysisQuery
     private $id;
 
     /**
+     * @DoctrineAssert\Enum(entity="Invit\DataAnalysisBundle\DBAL\Types\QueryLanguageType")
+     * @ORM\Column(name="query_language", type="QueryLanguageType", nullable=false)
+     */
+    private $queryLanguage = QueryLanguageType::SQL;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="query", type="text")
@@ -35,6 +43,13 @@ class DataAnalysisQuery
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", length=100, nullable=true)
+     */
+    private $icon;
 
     /**
      * @var string
@@ -84,6 +99,22 @@ class DataAnalysisQuery
     }
 
     /**
+     * @return string
+     */
+    public function getQueryLanguage()
+    {
+        return $this->queryLanguage;
+    }
+
+    /**
+     * @param string $queryLanguage
+     */
+    public function setQueryLanguage($queryLanguage)
+    {
+        $this->queryLanguage = $queryLanguage;
+    }
+
+    /**
      * Set query.
      *
      * @param string $query
@@ -129,6 +160,22 @@ class DataAnalysisQuery
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
     }
 
     /**

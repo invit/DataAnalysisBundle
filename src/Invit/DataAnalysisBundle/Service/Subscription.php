@@ -36,7 +36,7 @@ class Subscription
             $resultHash = md5(serialize($result));
 
             if ($resultHash !== $subscription->getResultHash()) {
-                $url = $this->router->generate('admin_invit_dataanalysis_dataanalysisquery_executeQuery', array_merge(['id' => $subscription->getQuery()->getId()], $subscription->getParameterValuesArray()), true);
+                $url = $this->router->generate('admin_invit_dataanalysis_dataanalysisquery_execute', array_merge(['id' => $subscription->getQuery()->getId()], $subscription->getParameterValuesArray()), true);
                 $response = $this->slackMessenger->message(
                     $subscription->getChannel(),
                     sprintf('Änderung in "%s" - %s', $subscription->getQuery()->getTitle(), $url),

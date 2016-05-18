@@ -19,6 +19,8 @@
         </service>
         <service id="invit_data_analysis.query_executor" class="%invit_data_analysis.query_executor.class%">
             <argument type="service" id="doctrine.dbal.select_only_connection" />
+            <argument type="service" id="doctrine.orm.select_only_entity_manager" />
+            <argument type="service" id="sonata.admin.pool" />
         </service>
     </services>
 </container>

@@ -6,7 +6,8 @@
             <thead>
             <tr>
                 {% for field, value in result.0 %}
-                    <th>{{ field }}</th>
+                    {% set firstValue = (result.0[field]|replace({"'": '', ',': ''})) %}
+                    <th {% if (firstValue/1*1) != 0 %}data-sort-method="number"{% endif %}>{{ field }}</th>
                 {% endfor %}
             </tr>
             </thead>
@@ -14,7 +15,8 @@
             {% for row in result %}
                 <tr>
                     {% for value in row %}
-                        <td data-sort="{{ value|replace({"'": '', ',': ''}) }}">{{ value }}</td>
+                        {% set sortValue = value|replace({"'": '', ',': ''}) %}
+                        <td data-sort="{{ sortValue }}">{{ value|converturls }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}

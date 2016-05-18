@@ -1,0 +1,28 @@
+{% extends 'SonataAdminBundle:CRUD:list.html.twig' %}
+
+{% block list_table %}
+    <div class="row">
+        {% for queries in results %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ queries|first.category.title }}</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            {% for query in queries %}
+                                <li>
+                                    <a href="{{ admin.generateUrl('execute', {'id': query.id}) }}">
+                                        <i class="fa {% if not query.icon is null %}{{ query.icon }}{% else %}fa-angle-right{% endif %}"></i>
+                                        {{ query.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- /.footer -->
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock list_table %}
