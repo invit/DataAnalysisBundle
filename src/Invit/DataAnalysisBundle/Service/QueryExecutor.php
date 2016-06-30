@@ -4,6 +4,8 @@ namespace Invit\DataAnalysisBundle\Service;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\AST\ASTException;
+use Doctrine\ORM\Query\AST\SelectStatement;
 use Invit\DataAnalysisBundle\DBAL\Types\QueryLanguageType;
 use Invit\DataAnalysisBundle\Entity\DataAnalysisQuery;
 use Invit\DataAnalysisBundle\Entity\DataAnalysisQueryParameter;
@@ -46,6 +48,10 @@ class QueryExecutor
         switch ($dataAnalysisQuery->getQueryLanguage()) {
             case QueryLanguageType::DQL:
                 $doctrineQuery = $this->em->createQuery($query);
+
+                if (!$doctrineQuery->getAST() instanceof SelectStatement) {
+                    throw new \Exception('only select statements allowed here');
+                }
 
                 foreach ($dataAnalysisQuery->getParameters() as $queryParameter) {
                     $doctrineQuery->setParameter($queryParameter->getName(), $parameters[$queryParameter->getName()]);
