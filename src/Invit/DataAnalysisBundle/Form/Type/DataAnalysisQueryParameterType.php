@@ -58,7 +58,7 @@ class DataAnalysisQueryParameterType extends AbstractType
                 }
             }
             if ($options['normalize_values']) {
-                $builder->addModelTransformer(new ParameterValueTransformer($this->em, $options['query_object']));
+                $builder->addModelTransformer(new ParameterValueTransformer($this->em, $options['query_object'], $options['parameter_value_class']));
             }
         }
     }
@@ -79,7 +79,8 @@ class DataAnalysisQueryParameterType extends AbstractType
         $resolver->setDefaults([
             'query_object' => null,
             'normalize_values' => false,
-            'csrf_protection' => false
+            'csrf_protection' => false,
+            'parameter_value_class' => null
         ]);
     }
 
