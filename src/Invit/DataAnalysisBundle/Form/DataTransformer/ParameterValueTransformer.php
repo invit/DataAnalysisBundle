@@ -5,18 +5,26 @@ namespace Invit\DataAnalysisBundle\Form\DataTransformer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Invit\DataAnalysisBundle\Entity\DataAnalysisQueryParameter;
+use Invit\DataAnalysisBundle\Entity\DataAnalysisQueryParameterValueInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Invit\DataAnalysisBundle\Entity\DataAnalysisQuerySubscriptionParameterValue;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
 
 class ParameterValueTransformer implements DataTransformerInterface
 {
     private $queryObject;
     private $em;
+    private $parameterValueClass;
 
-    public function __construct(EntityManagerInterface $em, $queryObject)
+    public function __construct(EntityManagerInterface $em, $queryObject, $parameterValueClass)
     {
         $this->em = $em;
         $this->queryObject = $queryObject;
+
+        if (new $parameterValueClass instanceof DataAnalysisQueryParameterValueInterface) {
+            $this->parameterValueClass = $parameterValueClass;
+        } else {
+            throw new InvalidArgumentException('$parameterValueClass must implement Invit\DataAnalysisBundle\Entity\DataAnalysisQueryParameterValueInterface');
+        }
     }
 
     /**
@@ -62,7 +70,7 @@ class ParameterValueTransformer implements DataTransformerInterface
     {
         $collection = new ArrayCollection();
         foreach ($this->queryObject->getParameters() as $parameter) {
-            $parameterValue = new DataAnalysisQuerySubscriptionParameterValue();
+            $parameterValue = new $this->parameterValueClass();
             $parameterValue->setParameter($parameter);
 
             $value = $data[$parameter->getName()];

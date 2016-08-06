@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class DataAnalysisQuerySubscriptionParameterValue
+class DataAnalysisQuerySubscriptionParameterValue implements DataAnalysisQueryParameterValueInterface
 {
     /**
      * @var int

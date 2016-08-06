@@ -2,6 +2,7 @@
 
 namespace Invit\DataAnalysisBundle\Admin;
 
+use Invit\DataAnalysisBundle\Entity\DataAnalysisQuerySubscriptionParameterValue;
 use Invit\DataAnalysisBundle\Form\DataTransformer\ParameterValueTransformer;
 use Invit\DataAnalysisBundle\Form\Type\DataAnalysisQueryParameterType;
 use Sonata\AdminBundle\Admin\Admin;
@@ -83,6 +84,7 @@ class DataAnalysisQuerySubscriptionAdmin extends Admin
                 'label' => 'Parameter',
                 'query_object' => $this->getParent()->getSubject(),
                 'normalize_values' => true,
+                'parameter_value_class' => DataAnalysisQuerySubscriptionParameterValue::class
             ]);
     }
 
